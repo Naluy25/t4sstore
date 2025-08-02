@@ -1,0 +1,466 @@
+/* تحسين استيراد الخطوط بتحديد فقط الأوزان التي نحتاجها لتقليل وقت التحميل */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Tajawal', system-ui, sans-serif;
+    --font-heading: 'Tajawal', serif;
+    
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.6rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5% 26%;
+    --sidebar-primary: 240 6% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 240 6% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 212 27% 84%;
+    
+    --sidebar-background: 240 6% 10%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 224 76% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth; /* تمرير سلس */
+    text-size-adjust: 100%; /* منع تغيير حجم النص تلقائياً */
+    -webkit-tap-highlight-color: transparent; /* إزالة تأثير النقر على الأجهزة المحمولة */
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased font-tajawal;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    direction: rtl;
+    min-height: 100vh;
+    /* تحسين عرض النص */
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-tajawal font-bold;
+    /* تحسين وضوح الخطوط في النظام المظلم */
+    @apply dark:text-shadow;
+  }
+
+  button, input, select, textarea {
+    font-family: 'Tajawal', sans-serif;
+  }
+  
+  /* تحسين تجربة النقر على الأزرار للأجهزة المحمولة */
+  button, [role="button"] {
+    touch-action: manipulation;
+  }
+  
+  /* منع تقليص النص في سفاري */
+  input, button, textarea, select {
+    font: inherit;
+  }
+}
+
+@layer utilities {
+  /* تحسين الأنماط لأداء أفضل */
+  .glass-card {
+    @apply backdrop-blur-md bg-white/60 dark:bg-black/60 border border-white/10 shadow-lg;
+  }
+  
+  /* تحسين توازن النص */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* ظل النص للوضع المظلم لتحسين وضوح الخطوط الفاتحة على الخلفيات الداكنة */
+  .text-shadow {
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+  }
+  
+  .text-shadow-sm {
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* تبسيط وتسريع الرسوم المتحركة */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  /* تحسين التمرير */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* تصميم شريط التمرير المخصص للمتصفحات التي تدعمه */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full hover:bg-gray-400 dark:hover:bg-gray-500;
+  }
+
+  /* تحسين الرسوم المتحركة لكفاءة أفضل باستخدام transform بدلاً من الخصائص الأخرى */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.5s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+  
+  /* إضافة تأثيرات جديدة */
+  .hover-lift {
+    @apply transition-transform duration-300;
+    will-change: transform;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-300;
+    will-change: transform;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+  
+  /* زر متحرك مع تأثير موجة */
+  .btn-pulse {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-pulse::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
+  
+  .btn-pulse:hover::after {
+    animation: ripple 1.5s ease-out;
+  }
+  
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(20, 20);
+      opacity: 0;
+    }
+  }
+  
+  /* إضافة فئات جديدة للتحسين */
+  .optimized-image {
+    @apply object-cover w-full h-full;
+    content-visibility: auto;
+  }
+  
+  .lazy-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+  
+  .performance-card {
+    @apply rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+  
+  /* تحسين أداء الرسوم المتحركة بتقليل عدد الخصائص المرسومة */
+  .efficient-animation {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+  
+  /* تأثيرات متقدمة للأزرار */
+  .modern-button {
+    @apply relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:shadow-md;
+  }
+  
+  .modern-button::before {
+    content: '';
+    @apply absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-300;
+  }
+  
+  .modern-button:hover::before {
+    @apply opacity-100;
+  }
+  
+  /* تعزيز قابلية قراءة النص على الصور */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* خلفية متدرجة */
+  .gradient-bg {
+    @apply bg-gradient-to-br from-primary/80 to-primary;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent;
+  }
+}
+
+/* تحسينات إضافية للأداء */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* ضبط حاويات وتحسين التجاوب لجميع الشاشات */
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* تحسين للأجهزة المحمولة */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  /* تحسين أداء التصفح على الأجهزة المحمولة */
+  .mobile-container {
+    contain: content;
+    content-visibility: auto;
+  }
+  
+  /* تعزيز مساحة النقر للعناصر على الأجهزة المحمولة */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* دعم الطابعات */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* تعريف تأثيرات الحركة الإضافية */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* تحسين ظهور الصفحة عند التحميل */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
